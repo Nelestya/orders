@@ -5,6 +5,7 @@ from .forms import OrderCreateForm
 from .tasks import order_created
 from cart.cart import Cart
 from django.views import View
+from baseapp.models import Application
 
 # Create your views here.
 
@@ -16,7 +17,9 @@ class Order_Create(View):
     def get(self, request):
         cart = Cart(request)
         form = OrderCreateForm()
+        applications = Application.objects.all()
         return render(request, 'orders/order/create.html', {'cart': cart,
+                                                            'applications': applications,
                                                             'form': form})
 
 

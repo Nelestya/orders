@@ -1,22 +1,47 @@
-{% extends "shop/base.html" %}
+{% extends "baseapp/base.html" %}
+{% load static %}
+
+{% block header %}
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+      <link rel="icon" type="{% static "image/icone.png"%}" href="logo.png" />
+      <title>Streaos Checkout</title>
+      <meta name="description" content="checkout" />
+
+    <link rel="stylesheet" href="{% static "css/foundation.css" %}">
+    <link rel="stylesheet" href="{% static "css/app.css" %}">
+  </head>
+
+{% endblock %}
 
 {% block content %}
-    <h1> Checkout </h1>
-    
-    <div class="order-info">
-        <h3>Your order</h3>
+    <h1 class="text-center"> Checkout </h1>
+
+    <div class="grid-x grid-margin-x">
+    <div class="medium-1 cell">
+    </div>
+    <div class="medium-5 cell">
+        <form action="." method="post" class="order-form" id="formcheckout">
+        {{ form.as_p }}
+        <button class="button large expanded" type="submit" form="formcheckout" value="Submit">Buy Now</button>
+        {% csrf_token %}
+    </form>
+    </div>
+    <div class="medium-6 large-5 cell">
+         <h3>Votre commande</h3>
         <ul>
             {% for item in cart %}
                 <li>{{ item.quantity }}x {{ item.product.name }} <span>${{ item.total_price }}</span></li>
             {% endfor %}
         </ul>
-        <p>Total: ${{ cart.get_total_price }}</p>
+        <p>Total: EUR {{ cart.get_total_price }}</p>
     </div>
-    
-    <form action="." method="post" class="order-form">
-        {{ form.as_p }}
-        <p><input type="submit" value="Place order"></p>
-        {% csrf_token %}
-    </form>
+    </div>
+
+   
     
 {% endblock %}
