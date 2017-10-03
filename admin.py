@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.contrib import admin
 from .models import Order, OrderItem
 from django.core import serializers
+from django.core.urlresolvers import reverse
 
 def export_as_json(modeladmin, request, queryset):
     opts = modeladmin.model._meta
@@ -34,6 +35,8 @@ def export_to_csv(modeladmin, request, queryset):
     return response
 export_to_csv.short_description = 'Export to CSV'
 
+def order_detail(obj):
+    return '<a href="{}">View</a>'.format(reverse('orders:admin_order_detail', args=[obj.id]))
 
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
