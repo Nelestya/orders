@@ -1,9 +1,10 @@
 from django.conf.urls import url
-from .views import Order_Create, Admin_Order_Detail
+from .views import Order_Create, Admin_Order_Detail, Admin_Order_Pdf
 from django.contrib.admin.views.decorators import staff_member_required
 
 
 urlpatterns = [
     url(r'^create/$', Order_Create.as_view(), name='order_create'),
     url(r'^admin/order/(?P<order_id>\d+)/$', staff_member_required(Admin_Order_Detail.as_view()), name='admin_order_detail'),
+    url(r'^admin/order/(?P<order_id>\d+)/pdf/$', staff_member_required(Admin_Order_Pdf.as_view()), name='admin_order_pdf'),
 ]

@@ -50,11 +50,25 @@ class Order_Create(View):
 
 
 class Admin_Order_Detail(View):
-        @staff_member_required
+
         def get(self, request, order_id):
             order = get_object_or_404(Order, id=order_id)
-            return render(request, 'admin/orders/order/detail.html')
+            return render(request, 'admin/orders/order/detail.html', {'order': order})
 
-        @staff_member_required
+
+        def post(self, request):
+            pass
+
+class Admin_Order_Pdf(View):
+
+        def get(self, request, order_id):
+            order = get_object_or_404(Order, id=order_id)
+            html = render_to_string('orders/order/pdf.html', {'order': order,})
+            response = HttpResponse(content_type='application/pdf')
+            response['Content-Disposition'] = 'filename="order_{}.pdf"'.format(order.id)
+            weasyprint.HTML(string=html).write_pdf(response, stylesheets=[weasyprint.CSS(settings.STATIC_ROOT + 'css/foundation.css')])
+            return response
+
+
         def post(self, request):
             pass
